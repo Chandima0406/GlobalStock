@@ -1,29 +1,38 @@
 {
-  "name": "product-store",
+  "name": "globalstock",
   "version": "1.0.0",
-  "description": "create backend and frontend npm init -y npm install express mongoos dotenv",
-  "main": "index.js",
+  "description": "GlobalStock E-commerce Platform - MERN Stack",
+  "main": "backend/server.js",
   "scripts": {
-    "dev": "nodemon backend/server.js"
+    "dev": "nodemon backend/server.js",
+    "start": "node backend/server.js",
+    "client": "cd frontend && npm run dev",
+    "dev:all": "concurrently \"npm run dev\" \"npm run client\"",
+    "install:client": "cd frontend && npm install",
+    "build:client": "cd frontend && npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Chandima0406/Product-Store.git"
+    "url": "git+https://github.com/Chandima0406/GlobalStock.git"
   },
   "type": "module",
-  "keywords": [],
-  "author": "",
+  "keywords": ["ecommerce", "mern", "react", "node", "mongodb"],
+  "author": "Chandima",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Chandima0406/Product-Store/issues"
+    "url": "https://github.com/Chandima0406/GlobalStock/issues"
   },
-  "homepage": "https://github.com/Chandima0406/Product-Store#readme",
+  "homepage": "https://github.com/Chandima0406/GlobalStock#readme",
   "dependencies": {
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "mongoose": "^8.17.1"
+    "mongoose": "^8.17.1",
+    "cors": "^2.8.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "concurrently": "^8.2.2"
   }
 }
