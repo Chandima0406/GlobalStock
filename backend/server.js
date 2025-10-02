@@ -4,7 +4,6 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 
 // Import routes
-import productRoutes from "./routes/product.route.js";
 import authRoutes from "./routes/auth.routes.js";
 
 // Import middleware
@@ -27,7 +26,6 @@ app.use(cors({
 
 // API Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/products", productRoutes);
 
 // Health check route
 app.get("/api/health", (req, res) => {
