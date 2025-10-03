@@ -5,6 +5,7 @@ import { connectDB } from "./config/db.js";
 
 // Import routes
 import authRoutes from "./routes/auth.routes.js";
+import productRoutes from "./routes/product.routes.js";
 
 // Import middleware
 import { errorHandler, notFound } from "./middleware/error.middleware.js";
@@ -26,6 +27,7 @@ app.use(cors({
 
 // API Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
 
 // Health check route
 app.get("/api/health", (req, res) => {
@@ -33,7 +35,29 @@ app.get("/api/health", (req, res) => {
     success: true,
     message: "GlobalStock API is running! 🚀",
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    version: "1.0.0",
+    endpoints: {
+      auth: "/api/auth",
+      products: "/api/products",
+      health: "/api/health"
+    }
+  });
+});
+
+// Welcome route
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "🌍 Welcome to GlobalStock E-commerce API!",
+    description: "Your complete e-commerce solution",
+    version: "1.0.0",
+    documentation: "Visit /api/health for API status",
+    endpoints: {
+      authentication: "/api/auth",
+      products: "/api/products",
+      health: "/api/health"
+    }
   });
 });
 
@@ -43,9 +67,23 @@ app.use(notFound);
 // Global error handler (should be last middleware)
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  connectDB();
+// Start server
+const server = app.listen(PORT, async () => {
+  await connectDB();
   console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode`);
-  console.log(`📡 Server start at http://localhost:${PORT}`);
-  console.log(`🏥 Health check: http://localhost:${PORT}/api/health`);
+  console.log(`📡 Server started at http://localhost:${PORT}`);
+});
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (err) => {
+  console.error(`❌ Unhandled Rejection: ${err.message}`);
+  console.error(err.stack);
+  // Keep server running
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+  console.error(`❌ Uncaught Exception: ${err.message}`);
+  console.error(err.stack);
+  // Keep server running
 });

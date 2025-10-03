@@ -25,3 +25,8 @@ npm i nodemon -D
 .env.*
 !.env.example
 ....................................
+
+
+  console.log(`🏥 Health check: http://localhost:${PORT}/api/health`);
+  console.log(`🔐 Auth routes: http://localhost:${PORT}/api/auth`);
+  console.log(`📦 Product routes: http://localhost:${PORT}/api/products`);
