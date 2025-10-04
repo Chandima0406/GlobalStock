@@ -59,14 +59,12 @@ const cartSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
-      unique: true,
-      index: true
+      unique: true
     },
     
     // Session ID (for guest users - optional)
     sessionId: {
       type: String,
-      index: true,
       sparse: true
     },
     
@@ -146,8 +144,7 @@ const cartSchema = mongoose.Schema(
       type: Date,
       default: function() {
         return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
-      },
-      index: true
+      }
     },
     
     // Cart metadata
@@ -228,8 +225,7 @@ const cartSchema = mongoose.Schema(
 // ======================
 // INDEXES for Performance
 // ======================
-cartSchema.index({ user: 1 });
-cartSchema.index({ sessionId: 1 });
+// sessionId field automatically gets sparse index from field definition
 cartSchema.index({ expiresAt: 1 });
 cartSchema.index({ status: 1 });
 cartSchema.index({ lastActive: -1 });

@@ -17,8 +17,7 @@ const categorySchema = mongoose.Schema(
       required: true,
       unique: true,
       lowercase: true,
-      trim: true,
-      index: true
+      trim: true
     },
     
     description: {
@@ -36,8 +35,7 @@ const categorySchema = mongoose.Schema(
     
     ancestors: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
-      index: true
+      ref: 'Category'
     }],
     
     level: {
@@ -196,7 +194,7 @@ const categorySchema = mongoose.Schema(
 // ======================
 // INDEXES for Performance
 // ======================
-categorySchema.index({ slug: 1 });
+// slug index is automatically created by unique: true
 categorySchema.index({ parent: 1 });
 categorySchema.index({ level: 1 });
 categorySchema.index({ status: 1 });

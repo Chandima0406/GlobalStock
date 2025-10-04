@@ -7,8 +7,7 @@ const productSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please add a product name'],
       trim: true,
-      maxLength: [200, 'Product name cannot be more than 200 characters'],
-      index: true
+      maxLength: [200, 'Product name cannot be more than 200 characters']
     },
     
     description: {
@@ -57,8 +56,7 @@ const productSchema = mongoose.Schema(
         'food-grocery',
         'jewelry-accessories',
         'other'
-      ],
-      index: true
+      ]
     },
     
     subcategory: {
@@ -69,8 +67,7 @@ const productSchema = mongoose.Schema(
     brand: {
       type: String,
       required: [true, 'Please add a brand'],
-      trim: true,
-      index: true
+      trim: true
     },
     
     tags: [{

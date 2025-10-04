@@ -6,16 +6,14 @@ const orderSchema = mongoose.Schema(
     orderNumber: {
       type: String,
       unique: true,
-      required: true,
-      index: true
+      required: true
     },
     
     // Customer Information
     customer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
-      index: true
+      required: true
     },
     
     customerEmail: {
@@ -315,7 +313,7 @@ const orderSchema = mongoose.Schema(
 // ======================
 // INDEXES for Performance
 // ======================
-orderSchema.index({ orderNumber: 1 });
+// orderNumber index is automatically created by unique: true
 orderSchema.index({ customer: 1, createdAt: -1 });
 orderSchema.index({ orderStatus: 1 });
 orderSchema.index({ paymentStatus: 1 });

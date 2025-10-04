@@ -6,6 +6,11 @@ import { connectDB } from "./config/db.js";
 // Import routes
 import authRoutes from "./routes/auth.routes.js";
 import productRoutes from "./routes/product.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import orderRoutes from "./routes/order.routes.js";
+import reviewRoutes from "./routes/review.routes.js";
+import categoryRoutes from "./routes/category.routes.js";
+import cartRoutes from "./routes/cart.routes.js";
 
 // Import middleware
 import { errorHandler, notFound } from "./middleware/error.middleware.js";
@@ -28,6 +33,11 @@ app.use(cors({
 // API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/cart", cartRoutes);
 
 // Health check route
 app.get("/api/health", (req, res) => {
@@ -40,6 +50,11 @@ app.get("/api/health", (req, res) => {
     endpoints: {
       auth: "/api/auth",
       products: "/api/products",
+      users: "/api/users",
+      orders: "/api/orders",
+      reviews: "/api/reviews",
+      categories: "/api/categories",
+      cart: "/api/cart",
       health: "/api/health"
     }
   });
@@ -56,6 +71,11 @@ app.get("/", (req, res) => {
     endpoints: {
       authentication: "/api/auth",
       products: "/api/products",
+      users: "/api/users",
+      orders: "/api/orders",
+      reviews: "/api/reviews",
+      categories: "/api/categories",
+      cart: "/api/cart",
       health: "/api/health"
     }
   });
