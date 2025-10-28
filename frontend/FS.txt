@@ -1,0 +1,105 @@
+src/
+├── components/
+│   ├── ui/                    # Reusable UI components
+│   │   ├── Button/
+│   │   │   ├── Button.jsx
+│   │   │   ├── Button.test.jsx
+│   │   │   └── index.js
+│   │   ├── Input/
+│   │   ├── Card/
+│   │   ├── Modal/
+│   │   ├── Loader/
+│   │   └── index.js           # Export all UI components
+│   ├── layout/               # Layout components
+│   │   ├── Header/
+│   │   ├── Footer/
+│   │   ├── Sidebar/
+│   │   └── Layout.jsx
+│   ├── forms/                # Form components
+│   │   ├── FormInput/
+│   │   ├── FormSelect/
+│   │   ├── FormTextarea/
+│   │   └── validation.js
+│   └── features/             # Feature-specific components
+│       ├── auth/
+│       ├── products/
+│       ├── cart/
+│       ├── checkout/
+│       └── admin/
+├── pages/                    # Page components
+│   ├── Home/
+│   │   ├── Home.jsx
+│   │   └── Home.module.css
+│   ├── Auth/
+│   │   ├── Login.jsx
+│   │   ├── Register.jsx
+│   │   └── ForgotPassword.jsx
+│   ├── Products/
+│   ├── Cart/
+│   ├── Checkout/
+│   ├── User/
+│   ├── Admin/
+│   └── Vendor/
+├── hooks/                    # Custom React hooks
+│   ├── useAuth.js
+│   ├── useCart.js
+│   ├── useProducts.js
+│   ├── useLocalStorage.js
+│   ├── useApi.js
+│   └── index.js
+├── contexts/                 # React Contexts
+│   ├── AuthContext.jsx
+│   ├── CartContext.jsx
+│   ├── ThemeContext.jsx
+│   └── index.js
+├── services/                 # API services and external integrations
+│   ├── api/
+│   │   ├── auth.js
+│   │   ├── products.js
+│   │   ├── orders.js
+│   │   ├── users.js
+│   │   ├── config/
+│   │   │   ├── axios.js
+│   │   │   └── endpoints.js
+│   │   └── index.js
+│   ├── storage/              # LocalStorage, sessionStorage utilities
+│   │   ├── token.js
+│   │   ├── cart.js
+│   │   └── index.js
+│   └── utils/                # Service utilities
+│       ├── notifications.js
+│       └── analytics.js
+├── utils/                    # Utility functions
+│   ├── constants.js          # App constants
+│   ├── helpers.js            # Helper functions
+│   ├── formatters.js         # Data formatting functions
+│   ├── validators.js         # Validation functions
+│   └── index.js
+├── stores/                   # Zustand/Jotai stores (if using state management)
+│   ├── authStore.js
+│   ├── cartStore.js
+│   └── productStore.js
+├── types/                    # TypeScript type definitions
+│   ├── auth.types.js
+│   ├── product.types.js
+│   ├── order.types.js
+│   └── index.js
+├── assets/                   # Static assets
+│   ├── images/
+│   │   ├── products/
+│   │   ├── categories/
+│   │   ├── banners/
+│   │   └── icons/
+│   ├── styles/               # Additional CSS files
+│   │   ├── globals.css       # Tailwind imports and global styles
+│   │   └── components.css    # Component-specific styles
+│   └── fonts/                # Custom fonts
+├── router/                   # Routing configuration
+│   ├── AppRoutes.jsx
+│   ├── PublicRoutes.jsx
+│   ├── PrivateRoutes.jsx
+│   ├── AdminRoutes.jsx
+│   └── index.js
+├── App.jsx                   # Main App component
+├── main.jsx                  # App entry point
+└── index.css                 # Main CSS file (imports Tailwind)

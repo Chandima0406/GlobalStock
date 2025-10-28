@@ -16,7 +16,13 @@
     "url": "git+https://github.com/Chandima0406/GlobalStock.git"
   },
   "type": "module",
-  "keywords": ["ecommerce", "mern", "react", "node", "mongodb"],
+  "keywords": [
+    "ecommerce",
+    "mern",
+    "react",
+    "node",
+    "mongodb"
+  ],
   "author": "Chandima",
   "license": "ISC",
   "bugs": {
@@ -24,15 +30,16 @@
   },
   "homepage": "https://github.com/Chandima0406/GlobalStock#readme",
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "mongoose": "^8.17.1",
-    "cors": "^2.8.5",
-    "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.17.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10",
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.10"
   }
 }
