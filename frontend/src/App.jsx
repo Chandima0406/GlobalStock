@@ -1,11 +1,14 @@
 import { Header } from "@/components/layout/Header";
-function App() {
+import { Footer } from "@/components/layout/Footer";
 
+function App({ children }) {
   return (
     <div>
-       <Header />
+      <Header />
+      <main className="min-h-screen">{children}</main>
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
