@@ -163,7 +163,7 @@ export default function About() {
                 <div className="bg-gray-300 w-32 h-32 rounded-full mx-auto mb-4 flex items-center justify-center">
                   <span className="text-gray-600">CEO Photo</span>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900">Sarah Johnson</h3>
+                <h3 className="text-xl font-semibold text-gray-900">Chandima Wijerathna</h3>
                 <p className="text-blue-600 mb-2">Chief Executive Officer</p>
                 <p className="text-gray-600 text-sm">
                   Visionary leader with 15+ years in e-commerce and technology innovation.
