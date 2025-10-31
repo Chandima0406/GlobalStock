@@ -48,7 +48,7 @@ export default function About() {
                 </p>
                 <div className="flex gap-4">
                   <Button variant="primary">Shop Now</Button>
-                  <Button variant="outline" asChild>
+                  <Button variant="outline" >
                     <Link to="/contact">Contact Us</Link>
                   </Button>
                 </div>
@@ -202,10 +202,10 @@ export default function About() {
               GlobalStock is here to support your journey.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="primary" size="lg" asChild>
+              <Button variant="primary" size="lg" >
                 <Link to="/products">Start Shopping</Link>
               </Button>
-              <Button variant="outline" size="lg" asChild>
+              <Button variant="outline" size="lg" >
                 <Link to="/contact">Become a Seller</Link>
               </Button>
             </div>

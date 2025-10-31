@@ -103,3 +103,535 @@ src/
 ├── App.jsx                   # Main App component
 ├── main.jsx                  # App entry point
 └── index.css                 # Main CSS file (imports Tailwind)
+
+
+
+---------------------------------------------------------------------------------------------------
+
+
+
+src/
+├── 📁 components/
+│   ├── 📁 ui/                          # Reusable UI components
+│   │   ├── Button/
+│   │   ├── Input/
+│   │   ├── Card/
+│   │   ├── Modal/
+│   │   ├── Loader/
+│   │   ├── Pagination/
+│   │   ├── SearchBox/
+│   │   ├── Rating/
+│   │   ├── Badge/
+│   │   ├── Alert/
+│   │   ├── Tabs/
+│   │   ├── Accordion/
+│   │   └── index.js
+│   ├── 📁 layout/                     # Layout components
+│   │   ├── Header/
+│   │   │   ├── Navigation/
+│   │   │   ├── SearchBar/
+│   │   │   └── UserMenu/
+│   │   ├── Footer/
+│   │   ├── Sidebar/
+│   │   ├── Breadcrumb/
+│   │   └── Layout.jsx
+│   ├── 📁 forms/                      # Form components
+│   │   ├── FormInput/
+│   │   ├── FormSelect/
+│   │   ├── FormTextarea/
+│   │   ├── FormCheckbox/
+│   │   ├── AddressForm/
+│   │   ├── PaymentForm/
+│   │   └── validation.js
+│   ├── 📁 features/                   # Feature-specific components
+│   │   ├── auth/
+│   │   │   ├── LoginForm/
+│   │   │   ├── RegisterForm/
+│   │   │   └── AuthGuard/
+│   │   ├── products/
+│   │   │   ├── ProductCard/
+│   │   │   ├── ProductGrid/
+│   │   │   ├── ProductFilters/
+│   │   │   ├── ProductSort/
+│   │   │   ├── ProductImages/
+│   │   │   └── ProductReview/
+│   │   ├── cart/
+│   │   │   ├── CartItem/
+│   │   │   ├── CartSummary/
+│   │   │   ├── CartSidebar/
+│   │   │   └── AddToCart/
+│   │   ├── checkout/
+│   │   │   ├── CheckoutSteps/
+│   │   │   ├── ShippingForm/
+│   │   │   ├── PaymentMethod/
+│   │   │   └── OrderSummary/
+│   │   ├── user/
+│   │   │   ├── ProfileForm/
+│   │   │   ├── AddressBook/
+│   │   │   ├── OrderHistory/
+│   │   │   └── WishlistItem/
+│   │   ├── admin/
+│   │   │   ├── Dashboard/
+│   │   │   ├── ProductForm/
+│   │   │   ├── OrderTable/
+│   │   │   ├── UserManagement/
+│   │   │   └── Analytics/
+│   │   └── vendor/
+│   │       ├── VendorDashboard/
+│   │       ├── ProductManagement/
+│   │       └── OrderManagement/
+│   └── 📁 shared/                     # Shared components
+│       ├── EmptyState/
+│       ├── ErrorBoundary/
+│       ├── LoadingSpinner/
+│       ├── ImageWithFallback/
+│       └── SEO/
+│
+├── 📁 pages/                          # Page components
+│   ├── 📁 Home/
+│   │   ├── Home.jsx
+│   │   ├── HeroSection/
+│   │   ├── FeaturedProducts/
+│   │   ├── CategoryShowcase/
+│   │   └── PromoBanners/
+│   ├── 📁 Auth/
+│   │   ├── Login.jsx
+│   │   ├── Register.jsx
+│   │   ├── ForgotPassword.jsx
+│   │   └── ResetPassword.jsx
+│   ├── 📁 Products/
+│   │   ├── ProductListing.jsx
+│   │   ├── ProductDetail.jsx
+│   │   ├── CategoryProducts.jsx
+│   │   └── SearchResults.jsx
+│   ├── 📁 Cart/
+│   │   ├── Cart.jsx
+│   │   └── CartEmpty.jsx
+│   ├── 📁 Checkout/
+│   │   ├── Checkout.jsx
+│   │   ├── Shipping.jsx
+│   │   ├── Payment.jsx
+│   │   ├── Review.jsx
+│   │   └── Success.jsx
+│   ├── 📁 User/
+│   │   ├── Profile.jsx
+│   │   ├── Orders/
+│   │   │   ├── OrderList.jsx
+│   │   │   ├── OrderDetail.jsx
+│   │   │   └── OrderTracking.jsx
+│   │   ├── Addresses/
+│   │   ├── Wishlist.jsx
+│   │   └── Settings.jsx
+│   ├── 📁 Admin/
+│   │   ├── Dashboard.jsx
+│   │   ├── Products/
+│   │   │   ├── ProductList.jsx
+│   │   │   ├── ProductCreate.jsx
+│   │   │   ├── ProductEdit.jsx
+│   │   │   └── ProductImport.jsx
+│   │   ├── Orders/
+│   │   │   ├── OrderList.jsx
+│   │   │   ├── OrderDetail.jsx
+│   │   │   └── OrderAnalytics.jsx
+│   │   ├── Categories/
+│   │   │   ├── CategoryList.jsx
+│   │   │   ├── CategoryCreate.jsx
+│   │   │   └── CategoryTree.jsx
+│   │   ├── Users/
+│   │   │   ├── UserList.jsx
+│   │   │   ├── UserDetail.jsx
+│   │   │   └── UserCreate.jsx
+│   │   ├── Reviews/
+│   │   │   ├── ReviewList.jsx
+│   │   │   └── ReviewModeration.jsx
+│   │   └── Analytics/
+│   │       ├── SalesAnalytics.jsx
+│   │       ├── ProductAnalytics.jsx
+│   │       └── CustomerAnalytics.jsx
+│   ├── 📁 Vendor/
+│   │   ├── Dashboard.jsx
+│   │   ├── Products/
+│   │   ├── Orders/
+│   │   └── Analytics/
+│   ├── 📁 Static/
+│   │   ├── About.jsx
+│   │   ├── Contact.jsx
+│   │   ├── Privacy.jsx
+│   │   └── Terms.jsx
+│   └── 📁 Error/
+│       ├── NotFound.jsx
+│       ├── ServerError.jsx
+│       └── Unauthorized.jsx
+│
+├── 📁 hooks/                          # Custom React hooks
+│   ├── useAuth.js
+│   ├── useCart.js
+│   ├── useProducts.js
+│   ├── useOrders.js
+│   ├── useCategories.js
+│   ├── useUsers.js
+│   ├── useReviews.js
+│   ├── useLocalStorage.js
+│   ├── useApi.js
+│   ├── useDebounce.js
+│   ├── usePagination.js
+│   ├── useFilters.js
+│   ├── useSearch.js
+│   └── index.js
+│
+├── 📁 contexts/                       # React Contexts
+│   ├── AuthContext.jsx
+│   ├── CartContext.jsx
+│   ├── ThemeContext.jsx
+│   ├── FilterContext.jsx
+│   ├── NotificationContext.jsx
+│   └── index.js
+│
+├── 📁 services/                       # API services
+│   ├── 📁 api/
+│   │   ├── auth.js
+│   │   ├── products.js
+│   │   ├── categories.js
+│   │   ├── orders.js
+│   │   ├── users.js
+│   │   ├── reviews.js
+│   │   ├── cart.js
+│   │   ├── payment.js
+│   │   ├── upload.js
+│   │   ├── 📁 config/
+│   │   │   ├── axios.js
+│   │   │   ├── endpoints.js
+│   │   │   └── interceptors.js
+│   │   └── index.js
+│   ├── 📁 storage/
+│   │   ├── token.js
+│   │   ├── cart.js
+│   │   ├── user.js
+│   │   └── index.js
+│   ├── 📁 utils/
+│   │   ├── notifications.js
+│   │   ├── analytics.js
+│   │   ├── errorHandler.js
+│   │   └── formatters.js
+│   └── index.js
+│
+├── 📁 utils/                          # Utility functions
+│   ├── constants.js
+│   ├── helpers.js
+│   ├── formatters.js
+│   ├── validators.js
+│   ├── calculations.js
+│   ├── dateUtils.js
+│   ├── currency.js
+│   └── index.js
+│
+├── 📁 stores/                         # State management (Zustand)
+│   ├── authStore.js
+│   ├── cartStore.js
+│   ├── productStore.js
+│   ├── categoryStore.js
+│   ├── orderStore.js
+│   ├── uiStore.js
+│   └── index.js
+│
+├── 📁 types/                          # Type definitions
+│   ├── auth.types.js
+│   ├── product.types.js
+│   ├── category.types.js
+│   ├── order.types.js
+│   ├── user.types.js
+│   ├── cart.types.js
+│   ├── review.types.js
+│   └── index.js
+│
+├── 📁 assets/
+│   ├── 📁 images/
+│   │   ├── 📁 products/
+│   │   ├── 📁 categories/
+│   │   ├── 📁 banners/
+│   │   ├── 📁 icons/
+│   │   ├── 📁 logos/
+│   │   └── 📁 placeholders/
+│   ├── 📁 styles/
+│   │   ├── globals.css
+│   │   ├── components.css
+│   │   ├── animations.css
+│   │   └── responsive.css
+│   ├── 📁 fonts/
+│   └── 📁 data/                       # Mock data for development
+│       ├── products.js
+│       ├── categories.js
+│       └── users.js
+│
+├── 📁 router/                         # Routing configuration
+│   ├── AppRoutes.jsx
+│   ├── PublicRoutes.jsx
+│   ├── PrivateRoutes.jsx
+│   ├── AdminRoutes.jsx
+│   ├── VendorRoutes.jsx
+│   └── index.js
+│
+├── 📁 config/                         # App configuration
+│   ├── app.js
+│   ├── theme.js
+│   ├── routes.js
+│   └── constants.js
+│
+├── 📁 constants/                      # App constants
+│   ├── routes.js
+│   ├── app.js
+│   ├── validation.js
+│   ├── payment.js
+│   └── index.js
+│
+├── App.jsx                            # Main App component
+├── main.jsx                           # App entry point
+└── index.css                          # Main CSS file
+
+
+-----------------------------------------------------------
+
+
+🏪 STORE PAGES
+1. Homepage
+Featured products carousel
+
+Featured categories grid
+
+New arrivals section
+
+Best sellers showcase
+
+Special offers/deals banner
+
+Customer testimonials
+
+2. Product Catalog
+Product grid/list view
+
+Advanced filtering (category, price range, brand, ratings)
+
+Sorting options (price, popularity, newest, rating)
+
+Search functionality with suggestions
+
+Category breadcrumbs
+
+3. Product Detail Pages
+Product image gallery with zoom
+
+Variant selection (size, color, etc.)
+
+Product specifications table
+
+Customer reviews and ratings
+
+Related products
+
+Add to cart/wishlist buttons
+
+Stock availability indicator
+
+4. Category Pages
+Category hierarchy navigation
+
+Subcategory listings
+
+Category-specific product attributes filtering
+
+Category description and banners
+
+👤 USER ACCOUNT PAGES
+5. Authentication Pages
+User registration
+
+Login with email/password
+
+Forgot password flow
+
+Email verification
+
+6. User Dashboard
+Order history with status tracking
+
+Wishlist management
+
+Address book management
+
+Profile settings
+
+Order statistics and spending overview
+
+7. Shopping Cart
+Cart items with quantity controls
+
+Price breakdown (subtotal, shipping, tax, discounts)
+
+Apply coupon codes
+
+Save for later functionality
+
+Cart validation (stock checks)
+
+8. Checkout Process
+Multi-step checkout (Address → Shipping → Payment → Review)
+
+Guest checkout option
+
+Multiple payment methods
+
+Order summary with final pricing
+
+Order confirmation page
+
+🛒 SHOPPING FEATURES
+9. Search & Discovery
+Advanced search with filters
+
+Search suggestions
+
+Recently viewed products
+
+Personalized recommendations
+
+10. Wishlist Functionality
+Save products for later
+
+Share wishlist with others
+
+Move wishlist items to cart
+
+11. Reviews & Ratings
+Product review submission
+
+Photo reviews
+
+Review helpfulness voting
+
+Vendor responses to reviews
+
+🎯 ADMIN PANEL PAGES
+12. Admin Dashboard
+Sales analytics and KPIs
+
+Recent orders overview
+
+Low stock alerts
+
+Customer statistics
+
+13. Product Management
+Add/edit product with variants
+
+Bulk product operations
+
+Inventory management
+
+Product categorization
+
+Featured products management
+
+14. Order Management
+Order processing workflow
+
+Bulk status updates
+
+Order search and filtering
+
+Refund processing
+
+15. Category Management
+Category hierarchy editor
+
+Category attributes setup
+
+Display order management
+
+16. User Management
+Customer list with filtering
+
+User role management
+
+User activity monitoring
+
+17. Review Moderation
+Review approval workflow
+
+Flagged reviews management
+
+Review analytics
+
+🏪 VENDOR PANEL PAGES
+18. Vendor Dashboard
+Sales performance
+
+Order management for their products
+
+Product performance analytics
+
+19. Vendor Product Management
+Add/edit their products
+
+Inventory tracking
+
+Price management
+
+📱 ADDITIONAL FEATURES
+20. Multi-vendor Marketplace
+Vendor store pages
+
+Vendor ratings and reviews
+
+Vendor product catalogs
+
+21. Advanced Shopping Features
+Product comparisons
+
+Recently viewed products
+
+Abandoned cart recovery emails
+
+Stock notifications
+
+22. Customer Service
+Order tracking integration
+
+Return/refund requests
+
+Contact forms
+
+23. Content Pages
+About us
+
+Contact information
+
+FAQ section
+
+Terms and conditions
+
+Privacy policy
+
+Shipping information
+
+🎨 ENHANCEMENT FEATURES
+Based on your backend capabilities, you can also add:
+
+Multi-currency support (currency field in cart/order)
+
+Multi-language support
+
+Advanced shipping options (real-time rates, free shipping thresholds)
+
+Loyalty program integration
+
+Gift card functionality
+
+Product bundles/combos
+
+Advanced discount system (percentage, fixed, free shipping)
+
+Abandoned cart analytics
+
+Customer segmentation
+
+Advanced reporting and analytics
