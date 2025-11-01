@@ -1,9 +1,10 @@
 // src/components/layout/Header/Header.jsx
 import React from "react";
 import { Button } from "@/components/ui/Button"; // or "../ui/Button" depending on setup
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
   return (
     <header className="w-full bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-3">
@@ -22,10 +23,10 @@ export default function Header() {
 
         {/* Right Section: Buttons */}
         <div className="flex gap-3">
-          <Button variant="outline" onClick={() => console.log("Login clicked")}>
+          <Button variant="outline" onClick={() => navigate('/login')}>
             Login
           </Button>
-          <Button variant="primary" onClick={() => console.log("Sign Up clicked")}>
+          <Button variant="primary" onClick={() => navigate('/register')}>
             Sign Up
           </Button>
         </div>
