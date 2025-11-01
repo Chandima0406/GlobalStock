@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Import all your pages
 
-import About from "@/pages/Static/About";
+import About from "./pages/Static/About";
 import LoginPage from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 
