@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Import all your pages
 
 import About from "@/pages/Static/About";
+import LoginPage from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
       <main className="grow">
         <Routes>
           <Route path="/about" element={<About />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<Register />} />
           {/* Add more routes here */}
         </Routes>
       </main>
