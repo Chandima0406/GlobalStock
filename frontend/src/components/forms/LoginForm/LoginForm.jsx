@@ -270,16 +270,6 @@ const LoginForm = () => {
             </Link>
           </p>
         </div>
-
-        {/* Demo Accounts Info (remove in production) */}
-        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <h4 className="text-sm font-medium text-blue-800 mb-2">Demo Accounts:</h4>
-          <div className="text-xs text-blue-700 space-y-1">
-            <div><strong>Customer:</strong> customer@demo.com / demo123</div>
-            <div><strong>Vendor:</strong> vendor@demo.com / demo123</div>
-            <div><strong>Admin:</strong> admin@demo.com / demo123</div>
-          </div>
-        </div>
       </form>
     </Card>
   );
