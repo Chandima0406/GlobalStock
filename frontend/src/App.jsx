@@ -8,6 +8,7 @@ import About from "./pages/Static/About";
 import LoginPage from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
+import ProfilePage from './pages/User/Profile';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/profile" element={<ProfilePage />} />
           {/* Add more routes here */}
         </Routes>
       </main>

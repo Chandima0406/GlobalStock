@@ -428,7 +428,7 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
                 value={formData.phone}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                placeholder="+1 (555) 123-4567"
+                placeholder="+94 77 217 4920"
                 error={errors.phone}
               />
             </div>
