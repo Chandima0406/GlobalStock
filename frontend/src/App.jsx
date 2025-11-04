@@ -9,6 +9,7 @@ import LoginPage from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ProfilePage from './pages/User/Profile';
+import ProductCreationPage from './pages/Products/ProductCreationPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/products/create" element={<ProductCreationPage />} />
           {/* Add more routes here */}
         </Routes>
       </main>
