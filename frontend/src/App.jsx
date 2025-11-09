@@ -10,6 +10,7 @@ import Register from "./pages/Auth/Register";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ProfilePage from './pages/User/Profile';
 import ProductCreationPage from './pages/Products/ProductCreationPage';
+import ProductEditForm from './components/forms/ProductEditForm/ProductEditForm';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/products/create" element={<ProductCreationPage />} />
+          <Route path="/products/edit/:productId" element={<ProductEditForm />} /> 
           {/* Add more routes here */}
         </Routes>
       </main>
