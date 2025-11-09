@@ -11,6 +11,8 @@ import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ProfilePage from './pages/User/Profile';
 import ProductCreationPage from './pages/Products/ProductCreationPage';
 import ProductEditForm from './components/forms/ProductEditForm/ProductEditForm';
+import AdminProductEdit from './pages/Admin/Products/ProductEdit';
+import ProductEditPage from './pages/Vendor/Products/ProductEdit';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/products/create" element={<ProductCreationPage />} />
           <Route path="/products/edit/:productId" element={<ProductEditForm />} /> 
+          <Route path="/admin/products/edit/:productId" element={<AdminProductEdit />} /> 
+          <Route path="/vendor/products/edit/:productId" element={<ProductEditPage />} />
           {/* Add more routes here */}
         </Routes>
       </main>
