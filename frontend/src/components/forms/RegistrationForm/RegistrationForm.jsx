@@ -184,20 +184,30 @@ const RegistrationForm = () => {
         throw new Error(data.message || 'Registration failed');
       }
 
-      // Handle different response structures
-      if (data.token || data.data?.token) {
-        localStorage.setItem('auth_token', data.token || data.data.token);
+      // Handle successful registration
+      const token = data.data?.token || data.token;
+      const user = data.data;
+      
+      if (token) {
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify({
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          vendorRequestStatus: user.vendorRequestStatus
+        }));
       }
 
       // Show success message
-      setSuccessMessage('Registration successful! Please check your email for verification.');
+      setSuccessMessage(data.message || 'Registration successful!');
       
       // Redirect based on vendor request
       setTimeout(() => {
-        if (formData.vendorRequest) {
+        if (formData.vendorRequest && user.vendorRequestStatus === 'pending') {
           navigate('/vendor-pending');
         } else {
-          navigate('/dashboard');
+          navigate('/login');
         }
       }, 2000);
 

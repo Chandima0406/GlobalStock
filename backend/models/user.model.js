@@ -36,6 +36,18 @@ const userSchema = mongoose.Schema(
       default: 'customer'
     },
     
+    vendorRequest: {
+      status: {
+        type: String,
+        enum: ['none', 'pending', 'approved', 'rejected'],
+        default: 'none'
+      },
+      requestedAt: Date,
+      approvedAt: Date,
+      rejectedAt: Date,
+      rejectionReason: String
+    },
+    
     isEmailVerified: {
       type: Boolean,
       default: false

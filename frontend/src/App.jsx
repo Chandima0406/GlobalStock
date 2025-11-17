@@ -8,6 +8,7 @@ import About from "./pages/Static/About";
 import LoginPage from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
+import VendorPending from "./pages/Auth/VendorPending";
 import ProfilePage from './pages/User/Profile';
 import ProductCreationPage from './pages/Products/ProductCreationPage';
 import ProductEditForm from './components/forms/ProductEditForm/ProductEditForm';
@@ -26,6 +27,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/vendor-pending" element={<VendorPending />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/products/create" element={<ProductCreationPage />} />
           <Route path="/products/edit/:productId" element={<ProductEditForm />} /> 

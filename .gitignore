@@ -134,3 +134,13 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+backend/controllers/auth.controller.js
+backend/models/user.model.js
+.gitignore
+backend/controllers/auth.controller.js
+frontend/.env
+frontend/src/components/forms/RegistrationForm/RegistrationForm.jsx
+frontend/src/App.jsx
+frontend/src/components/forms/RegistrationForm/RegistrationForm.jsx
+frontend/src/pages/Auth/VendorPending.jsx
+frontend/src/components/forms/RegistrationForm/RegistrationForm.jsx

@@ -7,7 +7,7 @@ import User from '../models/user.model.js';
 // @route   POST /api/auth/register
 // @access  Public
 export const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, phone } = req.body;
+  const { name, email, password, phone, vendorRequest } = req.body;
 
   // Validation
   if (!name || !email || !password) {
@@ -28,13 +28,24 @@ export const registerUser = asyncHandler(async (req, res) => {
     throw new Error('User already exists with this email');
   }
 
-  // Create user
-  const user = await User.create({
+  // Prepare user data
+  const userData = {
     name,
     email,
     password,
     phone: phone || ''
-  });
+  };
+
+  // Handle vendor request
+  if (vendorRequest) {
+    userData.vendorRequest = {
+      status: 'pending',
+      requestedAt: new Date()
+    };
+  }
+
+  // Create user
+  const user = await User.create(userData);
 
   if (user) {
     // Generate JWT token
@@ -42,13 +53,16 @@ export const registerUser = asyncHandler(async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: 'User registered successfully 🎉',
+      message: vendorRequest 
+        ? 'Registration successful! Your vendor request is pending approval 🎉' 
+        : 'User registered successfully 🎉',
       data: {
         _id: user._id,
         name: user.name,
         email: user.email,
         role: user.role,
         phone: user.phone,
+        vendorRequestStatus: user.vendorRequest?.status || 'none',
         token: token
       }
     });
