@@ -3,11 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
+import { Alert } from '@/components/ui/Alert';
+import { useAuth } from '@/hooks/useAuth';
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -93,15 +98,17 @@ const LoginForm = () => {
 
     setIsLoading(true);
     setErrors({});
+    setSuccessMessage('');
 
     try {
       const loginData = {
         email: formData.email.toLowerCase().trim(),
-        password: formData.password,
-        rememberMe: formData.rememberMe
+        password: formData.password
       };
 
-      const response = await fetch('/api/auth/login', {
+      // Use environment variable or default to localhost
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -126,36 +133,46 @@ const LoginForm = () => {
 
       // Login successful
       if (data.success) {
-        // Store token in localStorage
-        if (data.data?.token) {
-          localStorage.setItem('auth_token', data.data.token);
+        const token = data.data?.token;
+        const userData = {
+          id: data.data._id,
+          name: data.data.name,
+          email: data.data.email,
+          role: data.data.role,
+          avatar: data.data.avatar,
+          phone: data.data.phone
+        };
+
+        // Store in localStorage
+        if (token) {
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(userData));
           
-          // If remember me is checked, set a longer expiry (handled by backend cookie)
-          if (formData.rememberMe) {
-            localStorage.setItem('remember_me', 'true');
+          // Update auth context
+          login(userData, token);
+        }
+
+        // Show success message
+        setSuccessMessage(data.message || 'Login successful!');
+
+        // Role-based redirect after short delay
+        setTimeout(() => {
+          const userRole = data.data?.role || 'customer';
+          
+          switch (userRole) {
+            case 'admin':
+              navigate('/admin/dashboard');
+              break;
+            case 'vendor':
+              // Check if vendor is approved
+              navigate('/vendor/dashboard');
+              break;
+            case 'customer':
+            default:
+              navigate('/profile');
+              break;
           }
-        }
-
-        // Store user data
-        if (data.data) {
-          localStorage.setItem('user_data', JSON.stringify(data.data));
-        }
-
-        // Role-based redirect
-        const userRole = data.data?.role || 'customer';
-        
-        switch (userRole) {
-          case 'admin':
-            navigate('/admin/dashboard');
-            break;
-          case 'vendor':
-            navigate('/vendor/dashboard');
-            break;
-          case 'customer':
-          default:
-            navigate('/');
-            break;
-        }
+        }, 1000);
       }
 
     } catch (error) {
@@ -168,14 +185,17 @@ const LoginForm = () => {
     }
   };
 
-  const [showPassword, setShowPassword] = useState(false);
-
   return (
     <Card className="max-w-md mx-auto p-6">
       <div className="text-center mb-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h1>
         <p className="text-gray-600">Sign in to your GlobalStock account</p>
       </div>
+
+      {/* Success Message */}
+      {successMessage && (
+        <Alert variant="success" message={successMessage} className="mb-4" />
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Email Field */}
@@ -244,9 +264,7 @@ const LoginForm = () => {
 
         {/* Submit Error */}
         {errors.submit && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-800 text-sm">{errors.submit}</p>
-          </div>
+          <Alert variant="error" message={errors.submit} />
         )}
 
         {/* Submit Button */}

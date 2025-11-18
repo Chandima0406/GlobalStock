@@ -104,6 +104,7 @@ export const loginUser = asyncHandler(async (req, res) => {
         role: user.role,
         avatar: user.avatar,
         phone: user.phone,
+        vendorRequestStatus: user.vendorRequest?.status || 'none',
         token: token
       }
     });
