@@ -170,12 +170,33 @@ export const updateProfile = asyncHandler(async (req, res) => {
 // @access  Private
 export const logoutUser = asyncHandler(async (req, res) => {
   // In JWT, logout is handled client-side by removing the token
-  // But we can add any server-side cleanup here if needed
+  // You could add server-side cleanup here if needed:
+  // - Blacklist the token
+  // - Clear refresh tokens
+  // - Log the logout event
   
-  res.status(200).json({
-    success: true,
-    message: 'Logout successful. Please remove the token from client storage.'
-  });
+  try {
+    // Optional: Log logout event for audit trail
+    const user = await User.findById(req.user._id);
+    if (user) {
+      // You can add lastLogout timestamp or logout history if needed
+      // user.lastLogout = new Date();
+      // await user.save();
+      console.log(`User ${user.email} logged out at ${new Date().toISOString()}`);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Logged out successfully! See you soon 👋'
+    });
+  } catch (error) {
+    // Even if server-side cleanup fails, return success
+    // since logout is primarily client-side for JWT
+    res.status(200).json({
+      success: true,
+      message: 'Logged out successfully! See you soon 👋'
+    });
+  }
 });
 
 // @desc    Forgot password - Generate reset token
