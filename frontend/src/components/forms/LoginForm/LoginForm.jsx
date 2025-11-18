@@ -131,51 +131,58 @@ const LoginForm = () => {
         }
       }
 
-      // Login successful
-      if (data.success) {
-        const token = data.data?.token;
-        const userData = {
-          id: data.data._id,
-          name: data.data.name,
-          email: data.data.email,
-          role: data.data.role,
-          avatar: data.data.avatar,
-          phone: data.data.phone
-        };
+        // Login successful
+        if (data.success) {
+          const token = data.data?.token;
+          const userData = {
+            id: data.data._id,
+            name: data.data.name,
+            email: data.data.email,
+            role: data.data.role,
+            avatar: data.data.avatar,
+            phone: data.data.phone,
+            isFirstUser: data.data.isFirstUser
+          };
 
-        // Store in localStorage
-        if (token) {
-          localStorage.setItem('token', token);
-          localStorage.setItem('user', JSON.stringify(userData));
-          
-          // Update auth context
-          login(userData, token);
-        }
-
-        // Show success message
-        setSuccessMessage(data.message || 'Login successful!');
-
-        // Role-based redirect after short delay
-        setTimeout(() => {
-          const userRole = data.data?.role || 'customer';
-          
-          switch (userRole) {
-            case 'admin':
-              navigate('/admin/dashboard');
-              break;
-            case 'vendor':
-              // Check if vendor is approved
-              navigate('/vendor/dashboard');
-              break;
-            case 'customer':
-            default:
-              navigate('/profile');
-              break;
+          // Store in localStorage
+          if (token) {
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(userData));
+            
+            // Update auth context
+            login(userData, token);
           }
-        }, 1000);
-      }
 
-    } catch (error) {
+          // Show success message with context-appropriate message
+          const message = userData.isFirstUser 
+            ? 'Welcome! Please complete your profile setup.' 
+            : (data.message || 'Login successful!');
+          setSuccessMessage(message);
+
+          // Redirect based on user status after short delay
+          setTimeout(() => {
+            if (userData.isFirstUser) {
+              // First user - redirect to profile update page
+              navigate('/profile');
+            } else {
+              // Other users - redirect based on role
+              const userRole = userData.role || 'customer';
+              
+              switch (userRole) {
+                case 'admin':
+                  navigate('/admin/dashboard');
+                  break;
+                case 'vendor':
+                  navigate('/vendor/dashboard');
+                  break;
+                case 'customer':
+                default:
+                  navigate('/products');
+                  break;
+              }
+            }
+          }, 1500); // Slightly longer delay for first user to read the message
+        }    } catch (error) {
       setErrors({ submit: error.message });
       
       // Clear password field on error for security

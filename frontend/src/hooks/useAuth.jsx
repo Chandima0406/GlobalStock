@@ -6,7 +6,8 @@ const AuthContext = createContext({
   user: null,
   login: () => {},
   logout: () => {},
-  isAuthenticated: false
+  isAuthenticated: false,
+  getRedirectPath: () => {}
 });
 
 // Custom hook to use auth context

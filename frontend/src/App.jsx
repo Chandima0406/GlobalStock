@@ -29,6 +29,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/vendor-pending" element={<VendorPending />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/products" element={<div>Products Page - To be implemented</div>} />
           <Route path="/products/create" element={<ProductCreationPage />} />
           <Route path="/products/edit/:productId" element={<ProductEditForm />} /> 
           <Route path="/admin/products/edit/:productId" element={<AdminProductEdit />} /> 

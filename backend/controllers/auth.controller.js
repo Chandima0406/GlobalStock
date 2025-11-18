@@ -91,6 +91,10 @@ export const loginUser = asyncHandler(async (req, res) => {
     // Update last login
     await user.updateLastLogin();
 
+    // Check if this is the first user in the system
+    const userCount = await User.countDocuments();
+    const isFirstUser = userCount === 1;
+
     // Generate token
     const token = generateToken(user._id);
 
@@ -105,6 +109,7 @@ export const loginUser = asyncHandler(async (req, res) => {
         avatar: user.avatar,
         phone: user.phone,
         vendorRequestStatus: user.vendorRequest?.status || 'none',
+        isFirstUser: isFirstUser,
         token: token
       }
     });

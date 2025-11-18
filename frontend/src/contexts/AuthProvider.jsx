@@ -30,6 +30,25 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const getRedirectPath = (userData) => {
+    // If user is the first user in the system, redirect to profile update
+    if (userData?.isFirstUser) {
+      return '/profile';
+    }
+
+    // For other users, redirect based on role
+    const userRole = userData?.role || 'customer';
+    switch (userRole) {
+      case 'admin':
+        return '/admin/dashboard';
+      case 'vendor':
+        return '/vendor/dashboard';
+      case 'customer':
+      default:
+        return '/products';
+    }
+  };
+
   const logout = () => {
     setUser(null);
     setIsAuthenticated(false);
@@ -41,7 +60,8 @@ export const AuthProvider = ({ children }) => {
     user,
     login,
     logout,
-    isAuthenticated
+    isAuthenticated,
+    getRedirectPath
   };
 
   return (
