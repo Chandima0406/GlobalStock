@@ -138,36 +138,107 @@ export const getMe = asyncHandler(async (req, res) => {
 // @route   PUT /api/auth/profile
 // @access  Private
 export const updateProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id).select('+password');
 
-  if (user) {
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
-    user.phone = req.body.phone || user.phone;
-    user.avatar = req.body.avatar || user.avatar;
-
-    if (req.body.password) {
-      user.password = req.body.password;
-    }
-
-    const updatedUser = await user.save();
-
-    res.json({
-      success: true,
-      message: 'Profile updated successfully ✅',
-      data: {
-        _id: updatedUser._id,
-        name: updatedUser.name,
-        email: updatedUser.email,
-        role: updatedUser.role,
-        phone: updatedUser.phone,
-        avatar: updatedUser.avatar
-      }
-    });
-  } else {
+  if (!user) {
     res.status(404);
     throw new Error('User not found');
   }
+
+  const { name, email, phone, avatar, address, country, preferredCurrency, newsletter, currentPassword } = req.body;
+
+  // Validation
+  if (name && name.trim().length < 2) {
+    res.status(400);
+    throw new Error('Name must be at least 2 characters long');
+  }
+
+  if (name && name.trim().length > 50) {
+    res.status(400);
+    throw new Error('Name cannot exceed 50 characters');
+  }
+
+  // Check if email is being changed
+  if (email && email !== user.email) {
+    // Verify current password for email change
+    if (!currentPassword) {
+      res.status(401);
+      throw new Error('Current password is required to change email');
+    }
+
+    const isPasswordValid = await user.matchPassword(currentPassword);
+    if (!isPasswordValid) {
+      res.status(401);
+      throw new Error('Current password is incorrect');
+    }
+
+    // Check if new email already exists
+    const emailExists = await User.findOne({ email: email.toLowerCase().trim() });
+    if (emailExists && emailExists._id.toString() !== user._id.toString()) {
+      res.status(409);
+      throw new Error('Email already exists');
+    }
+
+    user.email = email.toLowerCase().trim();
+  }
+
+  // Update basic fields
+  if (name) user.name = name.trim();
+  if (phone !== undefined) user.phone = phone.trim();
+  if (avatar !== undefined) user.avatar = avatar;
+
+  // Handle address updates
+  if (address || country) {
+    if (user.addresses && user.addresses.length > 0) {
+      // Update existing default address
+      let defaultAddress = user.addresses.find(addr => addr.isDefault);
+      
+      if (defaultAddress) {
+        if (address !== undefined) defaultAddress.street = address;
+        if (country !== undefined) defaultAddress.country = country;
+        // Mark the addresses array as modified for Mongoose to save changes
+        user.markModified('addresses');
+      }
+    } else if (address && country) {
+      // Only create new address if both address and country are provided
+      // This prevents incomplete address validation errors
+      user.addresses.push({
+        street: address,
+        city: 'N/A', // Placeholder
+        state: 'N/A', // Placeholder
+        country: country,
+        zipCode: '00000', // Placeholder
+        isDefault: true
+      });
+    }
+  }
+
+  // Update preferences if provided
+  if (preferredCurrency !== undefined) {
+    user.preferences.currency = preferredCurrency;
+    user.markModified('preferences');
+  }
+  if (newsletter !== undefined) {
+    user.preferences.newsletter = newsletter;
+    user.markModified('preferences');
+  }
+
+  const updatedUser = await user.save();
+
+  res.json({
+    success: true,
+    message: 'Profile updated successfully ✅',
+    data: {
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      role: updatedUser.role,
+      phone: updatedUser.phone,
+      avatar: updatedUser.avatar,
+      addresses: updatedUser.addresses,
+      preferences: updatedUser.preferences
+    }
+  });
 });
 
 // @desc    Logout user (client-side token removal)

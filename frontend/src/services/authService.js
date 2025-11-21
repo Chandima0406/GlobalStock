@@ -50,10 +50,10 @@ export const getCurrentUser = async () => {
 
 /**
  * Update user profile
- * @param {FormData} formData - Profile update data
+ * @param {Object} profileData - Profile update data (JSON object)
  * @returns {Promise<Object>} Updated user data
  */
-export const updateUserProfile = async (formData) => {
+export const updateUserProfile = async (profileData) => {
   const token = localStorage.getItem('token');
   
   if (!token) {
@@ -64,9 +64,9 @@ export const updateUserProfile = async (formData) => {
     method: 'PUT',
     headers: {
       'Authorization': `Bearer ${token}`,
-      // Don't set Content-Type for FormData - browser will set it with boundary
+      'Content-Type': 'application/json',
     },
-    body: formData,
+    body: JSON.stringify(profileData),
   });
 
   if (!response.ok) {
@@ -76,6 +76,8 @@ export const updateUserProfile = async (formData) => {
       throw new Error(error.message || 'Email already exists');
     } else if (response.status === 401) {
       throw new Error(error.message || 'Current password is incorrect');
+    } else if (response.status === 400) {
+      throw new Error(error.message || 'Invalid data provided');
     } else {
       throw new Error(error.message || 'Failed to update profile');
     }

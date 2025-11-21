@@ -13,6 +13,7 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
     name: "",
     email: "",
     phone: "",
+    avatar: "",
     address: "",
     country: "",
     preferredCurrency: "USD",
@@ -32,6 +33,7 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
         name: userData.name || "",
         email: userData.email || "",
         phone: userData.phone || "",
+        avatar: userData.avatar || "",
         address: userData.addresses?.[0]?.street || "",
         country: userData.addresses?.[0]?.country || "",
         preferredCurrency: userData.preferences?.currency || "USD",
@@ -219,12 +221,16 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
     setSuccess("");
 
     try {
-      // Prepare JSON data (file upload will be implemented separately later)
+      // Prepare JSON data with all profile fields
       const dataToSend = {
         name: formData.name.trim(),
         email: formData.email.toLowerCase().trim(),
         phone: formData.phone.trim() || "",
-        avatar: formData.avatar || ""
+        avatar: formData.avatar || "",
+        address: formData.address.trim() || "",
+        country: formData.country || "",
+        preferredCurrency: formData.preferredCurrency,
+        newsletter: formData.newsletter
       };
 
       // Add current password if required for email change
@@ -257,6 +263,8 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
           throw new Error(data.message || "Email already exists");
         } else if (response.status === 401) {
           throw new Error(data.message || "Current password is incorrect");
+        } else if (response.status === 400) {
+          throw new Error(data.message || "Invalid data provided");
         } else {
           throw new Error(data.message || "Failed to update profile");
         }
@@ -556,6 +564,7 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
                 name: userData?.name || "",
                 email: userData?.email || "",
                 phone: userData?.phone || "",
+                avatar: userData?.avatar || "",
                 address: userData?.addresses?.[0]?.street || "",
                 country: userData?.addresses?.[0]?.country || "",
                 preferredCurrency: userData?.preferences?.currency || "USD",
