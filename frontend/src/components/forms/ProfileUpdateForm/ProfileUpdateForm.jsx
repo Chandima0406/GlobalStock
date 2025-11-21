@@ -103,9 +103,9 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
         break;
 
       case "currentPassword":
-        if ((isEmailChanged || formData.profilePicture) && !value) {
+        if (isEmailChanged && !value) {
           newErrors.currentPassword =
-            "Current password is required for security changes";
+            "Current password is required for email changes";
         } else {
           delete newErrors.currentPassword;
         }
@@ -199,12 +199,9 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
     }
 
     // Current password for sensitive changes
-    if (
-      (isEmailChanged || formData.profilePicture) &&
-      !formData.currentPassword
-    ) {
+    if (isEmailChanged && !formData.currentPassword) {
       newErrors.currentPassword =
-        "Current password is required for security changes";
+        "Current password is required for email changes";
       isValid = false;
     }
 
@@ -222,38 +219,34 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
     setSuccess("");
 
     try {
-      // Create FormData for file upload
-      const formDataToSend = new FormData();
+      // Prepare JSON data (file upload will be implemented separately later)
+      const dataToSend = {
+        name: formData.name.trim(),
+        email: formData.email.toLowerCase().trim(),
+        phone: formData.phone.trim() || "",
+        avatar: formData.avatar || ""
+      };
 
-      // Append text fields
-      formDataToSend.append("name", formData.name.trim());
-      formDataToSend.append("email", formData.email.toLowerCase().trim());
-      formDataToSend.append("phone", formData.phone.trim() || "");
-      formDataToSend.append("address", formData.address.trim() || "");
-      formDataToSend.append("country", formData.country || "");
-      formDataToSend.append("preferredCurrency", formData.preferredCurrency);
-      formDataToSend.append("newsletter", formData.newsletter.toString());
-
-      // Append current password if required
-      if (isEmailChanged || formData.profilePicture) {
-        formDataToSend.append("currentPassword", formData.currentPassword);
-      }
-
-      // Append profile picture if selected
-      if (formData.profilePicture) {
-        formDataToSend.append("profilePicture", formData.profilePicture);
+      // Add current password if required for email change
+      if (isEmailChanged && formData.currentPassword) {
+        dataToSend.currentPassword = formData.currentPassword;
       }
 
       // Get auth token
-      const token = localStorage.getItem("auth_token");
+      const token = localStorage.getItem("token");
 
-      const response = await fetch("/api/auth/profile", {
+      if (!token) {
+        throw new Error("Authentication required. Please login again.");
+      }
+
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${token}`,
-          // Don't set Content-Type for FormData - browser will set it with boundary
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
-        body: formDataToSend,
+        body: JSON.stringify(dataToSend),
       });
 
       const data = await response.json();
@@ -274,7 +267,7 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
         setSuccess("Profile updated successfully!");
 
         // Clear current password field
-        setFormData((prev) => ({ ...prev, currentPassword: "" }));
+        setFormData((prev) => ({ ...prev, currentPassword: "", profilePicture: null }));
         setIsEmailChanged(false);
 
         // Call parent callback if provided
@@ -334,31 +327,15 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
                   src={imagePreview || "/default-avatar.png"}
                   alt="Profile preview"
                 />
-                {formData.profilePicture && (
-                  <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center">
-                    <span className="text-white text-xs text-center px-2">
-                      New
-                    </span>
-                  </div>
-                )}
               </div>
             </div>
             <div className="flex-1">
-              <input
-                type="file"
-                name="profilePicture"
-                onChange={handleChange}
-                accept=".jpg,.jpeg,.png"
-                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                JPG or PNG, max 5MB. Current password required to change.
+              <p className="text-sm text-gray-600 mb-1">
+                Profile picture upload is coming soon!
               </p>
-              {errors.profilePicture && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.profilePicture}
-                </p>
-              )}
+              <p className="text-xs text-gray-500">
+                You can currently update your name, email, and phone number.
+              </p>
             </div>
           </div>
         </div>
@@ -524,14 +501,13 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
         </div>
 
         {/* Security Verification Section */}
-        {(isEmailChanged || formData.profilePicture) && (
+        {isEmailChanged && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
             <h4 className="text-sm font-medium text-yellow-800 mb-2">
               Security Verification Required
             </h4>
             <p className="text-sm text-yellow-700 mb-3">
-              For security reasons, please enter your current password to
-              confirm these changes.
+              For security reasons, please enter your current password to confirm email changes.
             </p>
             <div>
               <label
