@@ -141,7 +141,8 @@ const LoginForm = () => {
             role: data.data.role,
             avatar: data.data.avatar,
             phone: data.data.phone,
-            isFirstUser: data.data.isFirstUser
+            isFirstUser: data.data.isFirstUser,
+            isProfileComplete: data.data.isProfileComplete
           };
 
           // Store in localStorage
@@ -161,26 +162,20 @@ const LoginForm = () => {
 
           // Redirect based on user status after short delay
           setTimeout(() => {
+            // First priority: if first user, send to profile
             if (userData.isFirstUser) {
-              // First user - redirect to profile update page
               navigate('/profile');
-            } else {
-              // Other users - redirect based on role
-              const userRole = userData.role || 'customer';
-              
-              switch (userRole) {
-                case 'admin':
-                  navigate('/admin/dashboard');
-                  break;
-                case 'vendor':
-                  navigate('/vendor/dashboard');
-                  break;
-                case 'customer':
-                default:
-                  navigate('/products');
-                  break;
-              }
+              return;
             }
+
+            // If profile is complete, send to products
+            if (userData.isProfileComplete) {
+              navigate('/products');
+              return;
+            }
+
+            // Otherwise send to profile for completion
+            navigate('/profile');
           }, 1500); // Slightly longer delay for first user to read the message
         }    } catch (error) {
       setErrors({ submit: error.message });

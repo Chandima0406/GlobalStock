@@ -95,6 +95,22 @@ export const loginUser = asyncHandler(async (req, res) => {
     const userCount = await User.countDocuments();
     const isFirstUser = userCount === 1;
 
+    // Determine if profile is complete
+    const hasName = Boolean(user.name && user.name.trim());
+    const hasEmail = Boolean(user.email && user.email.trim());
+    const hasPhone = Boolean(user.phone && user.phone.trim());
+    const hasAddress = Boolean(
+      user.addresses &&
+      user.addresses.length > 0 &&
+      user.addresses[0].street &&
+      user.addresses[0].country
+    );
+    const hasPreferences = Boolean(
+      user.preferences && user.preferences.currency
+    );
+
+    const isProfileComplete = hasName && hasEmail && hasPhone && hasAddress && hasPreferences;
+
     // Generate token
     const token = generateToken(user._id);
 
@@ -110,6 +126,7 @@ export const loginUser = asyncHandler(async (req, res) => {
         phone: user.phone,
         vendorRequestStatus: user.vendorRequest?.status || 'none',
         isFirstUser: isFirstUser,
+        isProfileComplete: isProfileComplete,
         token: token
       }
     });
@@ -124,9 +141,18 @@ export const loginUser = asyncHandler(async (req, res) => {
 // @access  Private
 export const getMe = asyncHandler(async (req, res) => {
   // req.user is set by the auth middleware
-  const user = await User.findById(req.user._id)
-    .populate('wishlist.product', 'name price images')
-    .populate('cart.product', 'name price images inventory');
+  // Use lean() for faster queries and only populate if requested
+  const populate = req.query.populate === 'true';
+  
+  let query = User.findById(req.user._id);
+  
+  if (populate) {
+    query = query
+      .populate('wishlist.product', 'name price images')
+      .populate('cart.product', 'name price images inventory');
+  }
+  
+  const user = await query.lean();
 
   res.status(200).json({
     success: true,

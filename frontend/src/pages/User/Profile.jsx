@@ -12,8 +12,10 @@ const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch user data from backend
+  // Fetch user data from backend - runs once on mount
   useEffect(() => {
+    let isMounted = true;
+
     const fetchUserData = async () => {
       setIsLoading(true);
       setError(null);
@@ -46,15 +48,17 @@ const ProfilePage = () => {
 
         const data = await response.json();
 
-        if (data.success && data.data) {
+        if (isMounted && data.success && data.data) {
           setUserData(data.data);
           
-          // Check if user is first user from localStorage
+          // Check if user is first user from localStorage (read once)
           const storedUser = localStorage.getItem('user');
+          let firstUserFlag = false;
           if (storedUser) {
             try {
               const parsedUser = JSON.parse(storedUser);
-              setIsFirstUser(parsedUser.isFirstUser || false);
+              firstUserFlag = parsedUser.isFirstUser || false;
+              setIsFirstUser(firstUserFlag);
             } catch (err) {
               console.error('Error parsing stored user:', err);
             }
@@ -68,20 +72,29 @@ const ProfilePage = () => {
             role: data.data.role,
             avatar: data.data.avatar,
             phone: data.data.phone,
-            isFirstUser: isFirstUser
+            isFirstUser: firstUserFlag
           };
           localStorage.setItem('user', JSON.stringify(userForStorage));
         }
       } catch (err) {
-        console.error('Error fetching user data:', err);
-        setError(err.message || 'Failed to load profile data');
+        if (isMounted) {
+          console.error('Error fetching user data:', err);
+          setError(err.message || 'Failed to load profile data');
+        }
       } finally {
-        setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     fetchUserData();
-  }, [isFirstUser]);
+
+    // Cleanup function to prevent state updates on unmounted component
+    return () => {
+      isMounted = false;
+    };
+  }, []); // Empty dependency array - only run once on mount
 
   const handleProfileUpdate = async (updatedData) => {
     // Update state with new data

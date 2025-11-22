@@ -36,17 +36,13 @@ export const AuthProvider = ({ children }) => {
       return '/profile';
     }
 
-    // For other users, redirect based on role
-    const userRole = userData?.role || 'customer';
-    switch (userRole) {
-      case 'admin':
-        return '/admin/dashboard';
-      case 'vendor':
-        return '/vendor/dashboard';
-      case 'customer':
-      default:
-        return '/products';
+    // If profile is complete, send to products
+    if (userData?.isProfileComplete) {
+      return '/products';
     }
+
+    // Otherwise send to profile for completion
+    return '/profile';
   };
 
   const logout = () => {
