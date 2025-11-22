@@ -8,6 +8,7 @@ import About from "./pages/Static/About";
 import LoginPage from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
+import ResetPassword from "./pages/Auth/ResetPassword";
 import VendorPending from "./pages/Auth/VendorPending";
 import ProfilePage from './pages/User/Profile';
 import ProductCreationPage from './pages/Products/ProductCreationPage';
@@ -27,6 +28,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/vendor-pending" element={<VendorPending />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/products" element={<div>Products Page - To be implemented</div>} />
