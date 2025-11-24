@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Card from "@/components/ui/Card";
 
 const ProfileUpdateForm = ({ userData, onUpdate }) => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isEmailChanged, setIsEmailChanged] = useState(false);
   const [errors, setErrors] = useState({});
@@ -24,6 +26,22 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
 
   //Profile picture preview initialization
   const [imagePreview, setImagePreview] = useState("");
+
+  // Check if profile is complete
+  const isProfileComplete = () => {
+    if (!userData) return false;
+    
+    const hasBasicInfo = userData.name && userData.email && userData.phone;
+    const hasAddress = userData.addresses && userData.addresses.length > 0 && userData.addresses[0].street;
+    const hasPreferences = userData.preferences && userData.preferences.currency;
+    
+    return hasBasicInfo && hasAddress && hasPreferences;
+  };
+
+  // Handle skip button click
+  const handleSkip = () => {
+    navigate('/products');
+  };
 
   //Pre-populate form with current user data (with guards)
   useEffect(() => {
@@ -321,6 +339,31 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
         </p>
       </div>
 
+      {/* Profile Complete Notification */}
+      {isProfileComplete() && (
+        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start">
+          <svg
+            className="w-5 h-5 text-green-600 mr-3 mt-0.5 shrink-0"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <div>
+            <h4 className="text-sm font-medium text-green-800 mb-1">
+              Your profile is complete!
+            </h4>
+            <p className="text-sm text-green-700">
+              You can update your information below or skip to start shopping.
+            </p>
+          </div>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Profile Picture Section */}
         <div className="border-b border-gray-200 pb-6">
@@ -553,41 +596,69 @@ const ProfileUpdateForm = ({ userData, onUpdate }) => {
           </div>
         )}
 
-        {/* Submit Button */}
-        <div className="flex justify-end space-x-3">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => {
-              //Reset form to original data (with guards)
-              setFormData({
-                name: userData?.name || "",
-                email: userData?.email || "",
-                phone: userData?.phone || "",
-                avatar: userData?.avatar || "",
-                address: userData?.addresses?.[0]?.street || "",
-                country: userData?.addresses?.[0]?.country || "",
-                preferredCurrency: userData?.preferences?.currency || "USD",
-                newsletter: userData?.preferences?.newsletter || false,
-                profilePicture: null,
-                currentPassword: "",
-              });
-              setIsEmailChanged(false);
-              setErrors({});
-              setSuccess("");
-              setImagePreview(userData?.avatar || "");
-            }}
-          >
-            Reset
-          </Button>
-          <Button
-            type="submit"
-            variant="primary"
-            isLoading={isLoading}
-            disabled={isLoading || Object.keys(errors).length > 0}
-          >
-            Update Profile
-          </Button>
+        {/* Action Buttons */}
+        <div className="flex justify-between items-center">
+          {/* Skip Button - Only show if profile is complete */}
+          {isProfileComplete() && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleSkip}
+              className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+            >
+              <svg
+                className="w-5 h-5 mr-2 inline"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
+              Skip to Products
+            </Button>
+          )}
+          
+          {/* Right side buttons */}
+          <div className="flex justify-end space-x-3 ml-auto">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                //Reset form to original data (with guards)
+                setFormData({
+                  name: userData?.name || "",
+                  email: userData?.email || "",
+                  phone: userData?.phone || "",
+                  avatar: userData?.avatar || "",
+                  address: userData?.addresses?.[0]?.street || "",
+                  country: userData?.addresses?.[0]?.country || "",
+                  preferredCurrency: userData?.preferences?.currency || "USD",
+                  newsletter: userData?.preferences?.newsletter || false,
+                  profilePicture: null,
+                  currentPassword: "",
+                });
+                setIsEmailChanged(false);
+                setErrors({});
+                setSuccess("");
+                setImagePreview(userData?.avatar || "");
+              }}
+            >
+              Reset
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              isLoading={isLoading}
+              disabled={isLoading || Object.keys(errors).length > 0}
+            >
+              Update Profile
+            </Button>
+          </div>
         </div>
       </form>
     </Card>
