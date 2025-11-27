@@ -15,6 +15,7 @@ import ProductCreationPage from './pages/Products/ProductCreationPage';
 import ProductEditForm from './components/forms/ProductEditForm/ProductEditForm';
 import AdminProductEdit from './pages/Admin/Products/ProductEdit';
 import ProductEditPage from './pages/Vendor/Products/ProductEdit';
+import HomePage from './pages/Home/Home'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       {/* Page content changes based on route */}
       <main className="grow">
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<Register />} />
