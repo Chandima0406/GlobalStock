@@ -193,10 +193,10 @@ const Home = () => {
             {isAuthenticated ? (
               <>
                 <Button
-                  variant="primary"
+                  variant="outline"
                   size="lg"
                   onClick={() => navigate('/products')}
-                  className="bg-white text-blue-600 hover:bg-blue-50 min-w-[200px]"
+                  className="border-white text-white hover:bg-white hover:text-blue-600 min-w-[200px]"
                 >
                   Browse Products
                 </Button>
