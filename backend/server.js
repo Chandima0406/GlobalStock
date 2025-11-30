@@ -11,6 +11,7 @@ import orderRoutes from "./routes/order.routes.js";
 import reviewRoutes from "./routes/review.routes.js";
 import categoryRoutes from "./routes/category.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
+import newsletterRoutes from "./routes/newsletter.routes.js";
 
 // Import middleware
 import { errorHandler, notFound } from "./middleware/error.middleware.js";
@@ -38,6 +39,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/newsletter", newsletterRoutes);
 
 // Health check route
 app.get("/api/health", (req, res) => {
@@ -55,6 +57,7 @@ app.get("/api/health", (req, res) => {
       reviews: "/api/reviews",
       categories: "/api/categories",
       cart: "/api/cart",
+      newsletter: "/api/newsletter",
       health: "/api/health"
     }
   });
@@ -76,6 +79,7 @@ app.get("/", (req, res) => {
       reviews: "/api/reviews",
       categories: "/api/categories",
       cart: "/api/cart",
+      newsletter: "/api/newsletter",
       health: "/api/health"
     }
   });
