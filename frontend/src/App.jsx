@@ -15,7 +15,8 @@ import ProductCreationPage from './pages/Products/ProductCreationPage';
 import ProductEditForm from './components/forms/ProductEditForm/ProductEditForm';
 import AdminProductEdit from './pages/Admin/Products/ProductEdit';
 import ProductEditPage from './pages/Vendor/Products/ProductEdit';
-import HomePage from './pages/Home/Home'
+import HomePage from './pages/Home/Home';
+import ProductsPage from './pages/Products/Products';
 
 function App() {
   return (
@@ -33,7 +34,7 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/vendor-pending" element={<VendorPending />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/products" element={<div>Products Page - To be implemented</div>} />
+          <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/create" element={<ProductCreationPage />} />
           <Route path="/products/edit/:productId" element={<ProductEditForm />} /> 
           <Route path="/admin/products/edit/:productId" element={<AdminProductEdit />} /> 

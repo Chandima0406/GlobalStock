@@ -107,9 +107,24 @@ export const getProducts = asyncHandler(async (req, res) => {
     if (maxPrice) filter.price.$lte = parseFloat(maxPrice);
   }
 
-  // Search filter
+  // Search filter - support both text search and regex for better results
   if (search) {
-    filter.$text = { $search: search };
+    // Try text search first (requires text index)
+    try {
+      filter.$or = [
+        { $text: { $search: search } },
+        { name: new RegExp(search, 'i') },
+        { description: new RegExp(search, 'i') },
+        { brand: new RegExp(search, 'i') }
+      ];
+    } catch (error) {
+      // Fallback to regex if text index is not available
+      filter.$or = [
+        { name: new RegExp(search, 'i') },
+        { description: new RegExp(search, 'i') },
+        { brand: new RegExp(search, 'i') }
+      ];
+    }
   }
 
   // Stock filter
