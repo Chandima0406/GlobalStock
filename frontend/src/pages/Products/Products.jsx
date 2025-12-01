@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../components/ui/Button/Button';
 import Card from '../../components/ui/Card/Card';
+import Header from '@/components/layout/Header/Header';
+import Footer from '@/components/layout/Footer/Footer';
 
 const Products = () => {
   const navigate = useNavigate();
@@ -187,6 +189,7 @@ const Products = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+        <Header />
       {/* Header Section */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -576,6 +579,7 @@ const Products = () => {
           </main>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
